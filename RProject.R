@@ -16,7 +16,7 @@ binance_credentials(key = key_1, secret = secret_1)
 
 
 
-data <- binance_klines('BTCUSDT', interval = '1h')
+data <- binance_klines('BTCUSDT', interval = '1m')
 
 precioBTC <- binance_coins_prices(unit = "USDT")  %>%
   filter(symbol == "BTC")
