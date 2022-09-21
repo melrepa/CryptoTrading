@@ -69,14 +69,14 @@ repeat {
   # Create a new line for the log file 
   
   df1 <- indication(macd1, rsi1)
-  status <- df1$decision[50]
+  status <- df1$decision[500]
   
   
   if (status == "Buy"){
     
-    balance <- df1$price[50]
+    balance <- df1$price[500]
     GanPer <- 0
-    results <- cbind(df1[50,], balance, GanPer)
+    results <- cbind(df1[500,], balance, GanPer)
     
     # Save to CSV
     
@@ -95,15 +95,15 @@ repeat {
       rsi <- RSI(data$close, n = 14, maType = "SMA") 
       rsi1 <- as.data.frame(rsi)
       df1 <- indica_entrada(macd1, rsi1)
-      status <- df1$decision[50]
+      status <- df1$decision[500]
       
     }
     
     if (status == "Sell"){
       
-      balance <- df1$precio[50] - balance
+      balance <- df1$precio[500] - balance
       GanPer <- balance
-      results <- cbind(df1[50,], balance, GanPer)
+      results <- cbind(df1[500,], balance, GanPer)
       
       # Save to CSV
       
@@ -122,14 +122,14 @@ repeat {
         rsi <- RSI(data$close, n = 14, maType = "SMA") 
         rsi1 <- as.data.frame(rsi)
         df1 <- indica_entrada(macd1, rsi1)
-        status <- df1$decision[50]
+        status <- df1$decision[500]
         
       }
     } 
     
   } else {
     
-    write.table(df1[50,], file="df1.csv", append = T, sep = ',', row.names=F, col.names=F)
+    write.table(df1[500,], file="df1.csv", append = T, sep = ',', row.names=F, col.names=F)
     
   }
   
