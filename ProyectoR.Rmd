@@ -261,9 +261,9 @@ BTCUSDT, sin embargo, para un correcto análisis es mejor observarlos
 gráficamente.
 
 ```{r}
-macd <- MACD(Cl(XBTCUSDT.xts), nFast=12, nSlow=26,
+macd3 <- MACD(Cl(XBTCUSDT.xts), nFast=12, nSlow=26,
              nSig=9, percent=FALSE)
-tail(macd,n=5)
+tail(macd3,n=5)
 ```
 A continuación se muestran gráficamente las 15 criptomonedas elegidas, a partir de su cantidad de trades promedio, en conjunto a las estrategias mencionadas
 anteriormente.
@@ -313,6 +313,31 @@ Para analizar esta información, primero se determinó lo que serían las señal
 - Señal de compra: Cuando el RSI cruza hacia debajo de la línea del 30, forma un valle y enseguida cruza de nuevo hacia arriba la línea del 30.
 - Señal de venta: Cuando el RSI cruza hacia arriba la línea del 70, forma un pico y enseguida cruza de nuevo hacia abajo la línea del 70.
 - Otras reglas: Una divergencia entre el precio y el RSI indica un debilitamiento de la tendencia y por tanto su posible cambio. 
+
+
+
+
+
+
+```{r}
+#start a counter to access each element of the lists
+i <-1
+
+#create the 15 cryptos with the strategies
+for (x in xts_list) {
+strategies <- MACD(Cl(x), nFast=12, nSlow=26, 
+                   nSig=9, percent=FALSE)
+
+assign(paste('m', b, sep=''), strategies)
+
+}
+```
+
+```{r}
+bb2 <- BBands(Cl(XBTCUSDT.xts), n=20, maType = "SMA", sd=2)
+  
+tail(bb2,n=5)
+```
 
 
 #### Cardano/TetherUS (ADA/USDT)
