@@ -4,7 +4,7 @@ indication <- function(macd1, rsi1){
   strategy1[is.na(strategy1)] <- 0
   
   
-  strategy2 <- ifelse (macd1$signal < macd1$macd & (rsi1$rsi > 70), 1, 0)
+  strategy2 <- ifelse (macd1$signal < macd1$macd & (rsi1$rsi > 60), 1, 0)
   strategy2[is.na(strategy2)] <- 0
   
   

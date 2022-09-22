@@ -84,7 +84,7 @@ repeat {
     
     # Send Telegram
     
-    text <- "'Transaction notice' , 'You bought bitcoin!'"
+    text <- "Transaction notice, You bought bitcoin!"
     bot$sendMessage(chat_id, text = text)
     
     while(status == "Buy" | status == "Wait"){
@@ -109,9 +109,9 @@ repeat {
       
       write.table(results, file="results.csv", append = T, sep = ',', row.names=F, col.names=F)
       
-      # Send email
+      # Send telegram
       
-      text <- "'Transaction notice' , 'You sold bitcoin!'"
+      text <- "Transaction notice, You sold bitcoin!"
       bot$sendMessage(chat_id, text = text)
       
       while(status == "Sell"){
