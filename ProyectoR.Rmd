@@ -12,6 +12,10 @@ editor_options:
 
 ## 1.- Introducción.
 
+Actualmente, las criptomonedas están posicionándose como un medio alternativo de la moneda tradicional, ésta también funge como una oportunidad de inversión y de un manejo óptimo de los negocios a partir del dinero digital. Sin embargo, el desconocimiento que tienen las personas sobre sus mecanismos de operación es una problemática fuerte de este tipo de divisa.
+Previo a la ejecución de un bot de trading, el usuario debe tomar en cuenta el riesgo que está dispuesto a correr, la cantidad de dinero que quiere invertir, si tiene criptomonedas preferidas en las que desee arriesgar su dinero, la rentabilidad esperada, así como el tiempo en el que se desea obtener el objetivo de rentabilidad marcado.
+A lo largo de este proyecto, se debe desarrollar un bot de trading de criptomonedas, el cual, es un software que se programa para automatizar operaciones de inversión en busca de beneficios con condiciones previamente establecidas. Estos programas son capaces de automatizar todos los procesos, analizar diferentes indicadores de trading, así como operar de manera constante las 24 horas del día los siete días. Sin embargo, es importante recalcar que aun estos bots no son herramientas infalibles, poseen márgenes de error amplios.
+
 ## 2.- Objetivos.
 
 El objetivo principal de este proyecto es presentar el desarrollo y
@@ -22,6 +26,7 @@ serán mencionadas en la metodología.
 ## 3.- Metodología.
 
 ### 3.1.- Descarga de librerías.
+
 Primeramente fue necesario instalar y carga la librería BinanceR, la
 cual es una API pública de "Binance" utilizada para la recopilación de
 datos sobre criptomonedas, gestión de cartera y comercio, así como otras
@@ -40,6 +45,8 @@ library(dplyr)
 library(xts)
 library(tidyverse)
 library(scales)
+
+
 ```
 
 Instalar y cargar la librería `binancer`.
@@ -49,6 +56,7 @@ library(binancer)
 ```
 
 ### 3.2.- Acceso a la API Binance.
+
 Utilizar alguna de la siguiente credencial de acceso a Binance mediante
 su API:
 
@@ -99,7 +107,8 @@ solicitada la lista de todos los símbolos válidos en Binance.
 head(binance_symbols())
 ```
 
-### 3.3.- Filtración de 15 criptomonedas con mayor número de transacciones.  
+### 3.3.- Filtración de 15 criptomonedas con mayor número de transacciones.
+
 El tener los nombres de las criptomonedas y los símbolos válidos no es
 información suficiente para saber con que se está trabajando, por lo que
 se decidió utilizar como moneda base el Theter. Por dicha razón, se
@@ -185,8 +194,8 @@ df[0:15,] %>%
   geom_text(aes(label = comma(Mean_trades)), hjust = 1, nudge_x = -.5, colour = "black")
 ```
 
+### 3.4.- Análisis técnico y selección de las mejores criptomonedas.
 
-### 3.4.- Análisis técnico y selección de las mejores criptomonedas. 
 Ya que se obtuvieron las mejores 15 criptomonedas, basado en el promedio
 de transacciones hechas en los últimos 28 días, fue necesario ponerlas a
 prueba. Utilizando la librería `TTR`, se aplicaron tres estrategias a
@@ -195,15 +204,62 @@ momento de estimar el comportamiento del mercado y asi elegir las
 criptomonedas que han tenido mejor comportamiento, basándose en su
 tendencia, oscilación y volatilidad por lo que las tres estrategias o
 indicaciones a utilizar son: 
-* 1. Indicador de tendencia: Media Móvil de Convergencia/Divergencia (MACD), el cual es un indicador de impulso de seguimiento de tendencias que muestra la relación entre dos promedios móviles del precio de un valor. El MACD se calcula restando la media móvil exponencial (EMA) de 26 períodos de la EMA de 12 períodos. El resultado de ese cálculo es la línea MACD. Luego, se traza una EMA de nueve días del MACD llamada "línea de señal" en la parte superior de la línea MACD, que puede funcionar como un desencadenante de señales de compra y venta. Los comerciantes pueden comprar el valor cuando el MACD cruza por encima de su línea de señal y vender, o vender en corto, el valor cuando el MACD cruza por debajo de la línea de señal. 
 
-* 2. Indicador de oscilación: Índice de fuerza relativa (RSI), el cual es un indicador de impulso utilizado en el análisis técnico que mide la magnitud de los cambios de precios recientes para evaluar las condiciones de sobrecompra o sobreventa en el precio de una acción u otro activo. El RSI puede tener una lectura de 0 a 100. La interpretación y el uso tradicionales del RSI son que los valores de 70 o más indican que un valor se está sobrecomprando o sobrevaluando y puede estar preparado para una inversión de tendencia o un retroceso correctivo en el precio. Una lectura de RSI de 30 o menos indica una condición de sobreventa o infravaloración.
+- 
 
-* 3. Indicador de volatilidad: Bandas de Bollinger (BB), las cuales son un indicador gráfico utilizado en el análisis técnico para establecer un rango de precios de un activo. Para conseguir los parámetros de las bandas de bollinger usamos dos medidas estadísticas: la media móvil y la desviación típica. Se generan tres lineas, la central es la media móvil del precio de cotización del activo en las últimas 20 sesiones (por defecto). A partir de ahí, la banda superior se extrae de calcular la desviación típica con valor 2 (por defecto) y añadirlo al valor medio móvil. En cuanto a la banda inferior, se extrae de calcular la desviación estándar con valor 2 (por defecto) restada al valor de la media móvil. Entre la banda superior y la banda inferior del gráfico se crea un rango de cotización del valor que se esté estudiando que puede servir de varias formas. Por un lado, la teoría de las bandas de bollinger explica que el 90% de las variaciones de este precio tendrán lugar en esa franja, por lo que los movimientos que tengan lugar fuera pueden ser importantes.
-Otro uso de este indicador es la interpretación de las bandas de bollinger como medidor de la volatilidad del valor dependiendo de la separación de las bandas superior e inferior. Si vemos un estrechamiento entre las bandas, el valor estará sufriendo menos volatilidad, mientras que si se distancian, será un momento de más volatilidad.
+1. Indicador de tendencia: Media Móvil
+de Convergencia/Divergencia (MACD), el cual es un indicador de impulso
+de seguimiento de tendencias que muestra la relación entre dos promedios
+móviles del precio de un valor. El MACD se calcula restando la media
+móvil exponencial (EMA) de 26 períodos de la EMA de 12 períodos. El
+resultado de ese cálculo es la línea MACD. Luego, se traza una EMA de
+nueve días del MACD llamada "línea de señal" en la parte superior de la
+línea MACD, que puede funcionar como un desencadenante de señales de
+compra y venta. Los comerciantes pueden comprar el valor cuando el MACD
+cruza por encima de su línea de señal y vender, o vender en corto, el
+valor cuando el MACD cruza por debajo de la línea de señal.
 
-También fue usada la librería `quantmod` para graficar la
-información.
+-   
+
+    2.  Indicador de oscilación: Índice de fuerza relativa (RSI), el
+        cual es un indicador de impulso utilizado en el análisis técnico
+        que mide la magnitud de los cambios de precios recientes para
+        evaluar las condiciones de sobrecompra o sobreventa en el precio
+        de una acción u otro activo. El RSI puede tener una lectura de 0
+        a 100. La interpretación y el uso tradicionales del RSI son que
+        los valores de 70 o más indican que un valor se está
+        sobrecomprando o sobrevaluando y puede estar preparado para una
+        inversión de tendencia o un retroceso correctivo en el precio.
+        Una lectura de RSI de 30 o menos indica una condición de
+        sobreventa o infravaloración.
+
+-   
+
+    3.  Indicador de volatilidad: Bandas de Bollinger (BB), las cuales
+        son un indicador gráfico utilizado en el análisis técnico para
+        establecer un rango de precios de un activo. Para conseguir los
+        parámetros de las bandas de bollinger usamos dos medidas
+        estadísticas: la media móvil y la desviación típica. Se generan
+        tres lineas, la central es la media móvil del precio de
+        cotización del activo en las últimas 20 sesiones (por defecto).
+        A partir de ahí, la banda superior se extrae de calcular la
+        desviación típica con valor 2 (por defecto) y añadirlo al valor
+        medio móvil. En cuanto a la banda inferior, se extrae de
+        calcular la desviación estándar con valor 2 (por defecto)
+        restada al valor de la media móvil. Entre la banda superior y la
+        banda inferior del gráfico se crea un rango de cotización del
+        valor que se esté estudiando que puede servir de varias formas.
+        Por un lado, la teoría de las bandas de bollinger explica que el
+        90% de las variaciones de este precio tendrán lugar en esa
+        franja, por lo que los movimientos que tengan lugar fuera pueden
+        ser importantes. Otro uso de este indicador es la interpretación
+        de las bandas de bollinger como medidor de la volatilidad del
+        valor dependiendo de la separación de las bandas superior e
+        inferior. Si vemos un estrechamiento entre las bandas, el valor
+        estará sufriendo menos volatilidad, mientras que si se
+        distancian, será un momento de más volatilidad.
+
+También fue usada la librería `quantmod` para graficar la información.
 
 ```{r}
 bestsymb[,1] -> best15
@@ -238,10 +294,9 @@ library(quantmod)
 df_list = mget(ls(pattern = "X[A-Z]"))
 ```
 
-
 Se utilizó la librería `xts` para dar una estructura de serie de tiempo
-a las tablas consistente de las columnas `open`, `high`, `low` y `close` y
-se guardó nuevas bases de datos en los objetos con terminación `.xts`.
+a las tablas consistente de las columnas `open`, `high`, `low` y `close`
+y se guardó nuevas bases de datos en los objetos con terminación `.xts`.
 
 ```{r}
 for(x in list_names_candles){
@@ -254,9 +309,9 @@ df_aux <- get(x)
 ```
 
 Se utilizó la librería `quantmod` para realizar la gráfica de velas con
-los valores en objetos xts. 
+los valores en objetos xts.
 
-Se obtuvieron los valores de la estrategia MACD y de su señal en
+Se obtuvieron los valores de las estrategias MACD, RSI y BBANDS en
 BTCUSDT, sin embargo, para un correcto análisis es mejor observarlos
 gráficamente.
 
@@ -265,19 +320,30 @@ macd3 <- MACD(Cl(XBTCUSDT.xts), nFast=12, nSlow=26,
              nSig=9, percent=FALSE)
 tail(macd3,n=5)
 ```
-A continuación se muestran gráficamente las 15 criptomonedas elegidas, a partir de su cantidad de trades promedio, en conjunto a las estrategias mencionadas
-anteriormente.
+
+```{r}
+rsi3 <- RSI(Cl(XBTCUSDT.xts), n = 14, maType = "EMA")
+tail(rsi3,n=5)
+```
+
+```{r}
+bbands3 <- BBands(Cl(XBTCUSDT.xts), n=20, maType = "SMA", sd = 2)
+```
+
+
+A continuación se muestran gráficamente las 15 criptomonedas elegidas, a
+partir de su cantidad de trades promedio, en conjunto a las estrategias
+mencionadas anteriormente.
 
 ```{r}
 #create the list of the ".xts" objects
 xts_list <- mget(ls(pattern = "[A-Z].xts$"))
 
-#create a list of the names, without the "X" start and ".xls" ending, to title the charts
+#create a list of the names, without the "X" start and ".xts" ending, to title the charts
 names(xts_list) %>%
   str_remove(.,".xts") %>%
   substr(., 2, nchar(xts_list)) -> xts_names
 ```
-
 
 ```{r}
 #start a counter to access each element of the lists
@@ -296,227 +362,426 @@ print("Precios dados desde las 00:00 del 15 de agosto hasta las 23:00 del 11 de 
 }
 ```
 
-### 3.5.- Interpretación.
-Para analizar esta información, primero se determinó lo que serían las señales de compra y venta de cada estrategia. 
-
-*Bollinger Bands
-- Señal de compra: Cuando el precio, estando por debajo, penetra al promedio móvil y enseguida toca la banda superior.
-- Señal de venta: Cuando el precio, estando por arriba, penetra al promedio móvil y después toca la banda inferior. 
-- Otras reglas: El estrechamiento de las bandas indican baja volatilidad y un posible gran movimiento en precios. 
-
-*Promedio Móvil de Convergencia y Divergencia (MACD) 
-- Señal de compra: Cuando, estando por debajo de la línea del 0, el MACD cruza de abajo hacia arriba a la línea de la señal. Se confirma cuando el MACD cruza la línea del 0. 
-- Señal de venta: Cuando, estando por encima de la línea del 0, el MACD cruza de arriba hacia abajo a la línea de la señal. Se confirma cuando el MACD cruza la línea del 0. 
-- Otras reglas: En movimientos laterales es mejor ignorar las señales de compra o venta. 
-
-*Índice de fuerza relativa (RSI)
-- Señal de compra: Cuando el RSI cruza hacia debajo de la línea del 30, forma un valle y enseguida cruza de nuevo hacia arriba la línea del 30.
-- Señal de venta: Cuando el RSI cruza hacia arriba la línea del 70, forma un pico y enseguida cruza de nuevo hacia abajo la línea del 70.
-- Otras reglas: Una divergencia entre el precio y el RSI indica un debilitamiento de la tendencia y por tanto su posible cambio. 
 
 
 
+### 3.5.- Evaluación para la elección de criptomonedas y estrategia para uso en el programa.
 
+Se evaluarán las estrategias simulando su uso. Vamos a considerar velas de 1 hora para identificar patrones de compra y velas de 1 minuto durante bloques de 30 minutos para evaluar el desempeño de la estrategia. Se decidió utilizar velas de un minuto para dar un seguimiento de "tiempo real" al momento de evaluar cada compra.
 
+#### 3.5.1 Funciones compra_evaluacion
+Estas funciones toman como entrada la información de las velas de las criptomonedas, genera la respectiva estrategia (MACD, RSI y BB) e identifica las señales de compra. Genera un data frame con esta información.
+  
+  Args:
+    data_xts: Data frame tipo serie de tiempo con la información necesaria de las velitas para obtener las señales de la estrategia.
+    
+  Return: 
+    comprar: Es un data frame con la información de las señales de compra para la criptomoneda utilizando la respectiva estrategia.
 
 ```{r}
-#start a counter to access each element of the lists
-i <-1
-
-#create the 15 cryptos with the strategies
-for (x in xts_list) {
-strategies <- MACD(Cl(x), nFast=12, nSlow=26, 
-                   nSig=9, percent=FALSE)
-
-assign(paste('m', b, sep=''), strategies)
-
+#Vamos a crear una función que guarde las señales de compra mediante MACD
+MACD_compra_evaluacion <- function(data_xts){
+  macd_data <- MACD(Cl(data_xts), nFast=12, nSlow=26, nSig=9, percent=FALSE)
+  comprar <- list()
+  cantidad_renglones <- nrow(data_xts)
+  
+  # Guardamos las señales de compra del MACD en una lista llamada "comprar".
+  for (j in 1:34){
+    comprar<- append(comprar, FALSE)
+  }
+  for(i in 35:cantidad_renglones){
+    if ((macd_data$macd[i] > 0) && (macd_data$macd[i-1] < 0) && (macd_data$macd[i] >= macd_data$signal[i]))  {
+         comprar <- append(comprar, TRUE)
+    } else{
+      comprar <- append(comprar, FALSE)
+    }
+  }
+  return(comprar)
 }
 ```
 
 ```{r}
-bb2 <- BBands(Cl(XBTCUSDT.xts), n=20, maType = "SMA", sd=2)
-  
-tail(bb2,n=5)
+#Vamos a crear una función que guarde las señales de compra mediante RSI
+RSI_compra_evaluacion <- function(data_xts){
+  rsi_data <- RSI(Cl(data_xts), n = 14, maType = "EMA")
+  comprar <- list()
+  cantidad_renglones <- nrow(data_xts)
+  # Guardamos las señales de compra del RSI en una lista llamada "comprar".
+  for (i in 1:15){
+    
+    comprar<- append(comprar, FALSE)
+  }
+  for(i in 16:cantidad_renglones){
+    if ((rsi_data$rsi[i-1]>30) && (rsi_data$rsi[i]<30)) {
+        comprar <- append(comprar, TRUE)
+      } else {
+        comprar <- append(comprar, FALSE)
+      }
+  }
+  return(comprar)
+}
 ```
 
 
-#### Cardano/TetherUS (ADA/USDT)
-
-* BBands: Se pueden observar señales de comprar el 16 y el 18 de agosto y después se presenta un desplome del precio. El 23 de agosto y esto nos marca una tendencia de elevación de precio desde el 23 hasta el 26 de agosto. 
-El 27 de agosto tenemos otra señal de comprar, es seguido de un ligero aumento de precio para después descender y volver a presentar señal de compra el 30 de agosto, el 1 de septiembre y el 2 de septiembre, lo que fue acompañado de una elevación de precios hasta el 5 de septiembre. La siguiente señal pronunciada de compra se observa el 8 de septiembre.
-
-Entre las señales de venta se encuentran las fechas 17 y 18 de agosto y esto está acompañado de un desplome del precio. 
-Mas señales de venta de presentan el 22, 24, 26 y 30 de agosto y el 5, 6, 8 y 11 de septiembre.
-Las bandas nos muestran una alta volatilidad el 19 y 27 de agosto y el 7 de septiembre.
-En general este indicador nos muestra una correcta predicción del movimiento de los precios ya que el precio disminuyó después de las señales de ventas y aumentó después de las señales de compra, además de que está acompañado de señales de volatilidad y justo cuando se presenta amplia volatilidad, siguen varias alteraciones en los precios. 
-
-* MACD: Las señales de comprar son mas concretas con este indicador: se observa una el 22 de agosto y esto fue seguido de un ligero aumento del precio con algunas alteraciones. 
-Otra señal se presenta el 29 de agosto y el 1 de septiembre, lo cual estuvo acompañado de aumento del precio y nuevamente lo observamos el 7 de septiembre .
-Entre las señales de venta se destacan los días 17, 22 y 26 de agosto y el 5 y 7 de septiembre. 
-La estimación a futuro es un descenso del precio a partir del 11 de septiembre. 
-
-
-* RSI: Entre las señales de compra se encuentran las de los días 19 y 20 de agosto, 27 y 29 de agosto y el 7 de septiembre.
-Señales de venta se observan los días 17 y 30 de agosto, 4, 8 y 10 de septiembre. 
-
-Se puede decir que, en general, los tres indicadores compartieron fechas de señales de compra y de venta pero el que muestra mayor informacion es BBands, seguido de MACD con datos mas concretos y por último el RSI que nos da información mas reservada considerando menor cantidad de señales de compra y venta. 
-
-#### Cosmos/TetherUS (ATOM/USDT)
-
-BBands: Tenemos señales de compra los días 16, 18, 23, 24, 29 y 31 de agosto y el 2, 47 de septiembre.
-Se observan señales de venta los días 18, 22, 26, 28 y 30 de agosto y el 1, 3, 5 y 9 de septiembre. 
-Alta volatilidad el 19, 23 y 27 de agosto y el 8 de septiembre. 
-La señales de compra fueron seguidas de aumentos en precios y las señales de venta de disminución del mismo. 
-
-MACD: La primera señal de compra se presenta el 22 de agosto, seguido de una mas el 23. La primera representa un pequeño aumento del precio y la segunda un aumento mas prolongado del mismo. La siguiente señal se presenta el 29 de agosto que va acompañado de un aumento del precio pero de forma no constante. Por último, se tiene una señal de compra el 7 de septiembre ompaña de un aumento constante del precio. 
-Las señales de venta mas visibles se encuentran el 19 y 26 de agosto y de forma mas conservadora el día 1 y 3 de septiembre. Por último se presenta otra señal de venta el día 5 de septiembre. 
-Se puede estimar una señal de venta a partir del 11 de septiembre. 
-
-RSI: Se tienen señales de compra el 19, 20, 27 y 29 de agosto y el 7 de septiembre.
-En las señales de venta se aprecian el 18, 23 y 25 de agosto y el 8 y 9 de septiembre. 
-
-Se puede decir que, en general, los tres indicadores compartieron fechas de señales de compra y de venta pero el que muestra mayor informacion es BBands, seguido de MACD con datos mas concretos y por último el RSI que nos da información mas reservada considerando menor cantidad de señales de compra y venta. 
-
-#### Binance coin/TetherUS (BNB/USDT)
-
-BBands: Señales de compra se presentan el 18, 21, 25 y 29 de agosto y el 2, 6, 7 y 8 de septiembre. 
-Las señales de venta se ven el 17, 19, 20, 24, 27, 28 y 30 de agosto y el 1, 5, 6 y 11 de septiembre. 
-Alta volatilidad los días 18, 19, 26 y 31 de agosto y el 7 de septiembre. 
-
-MACD: Señales de compra los días 20 y 27 de agosto y eñ 1 y 8 de septiembre. 
-Señales de ventas están el 22, 26 y 30 de agosto y el 3 y 7 de septiembre, seguido de una estimación de señal de venta a partir del 11 de septiembre. 
-
-RSI: Señales de compra el 17, 19, 27 de agosto y el 7 de septiembre. 
-Señales de venta el 21 y 22 de agosto, y el 8 y 9 de septiembre.
-
-Se puede decir que, en general, los tres indicadores compartieron fechas de señales de compra y de venta pero el que muestra mayor informacion es BBands, seguido de MACD con datos mas concretos y por último el RSI que nos da información mas reservada considerando menor cantidad de señales de compra y venta. 
-
-#### Bitcoin/TetherUS (BTC/USDT)
-
-BBands: Señales de compra los días 17, 21, 24 y 29 de agosto y el 2, 5, 8 y 10 de septiembre. 
-Señales de venta el 18, 29, 22, 26, 28 y 30 de agosto y el 7 y 11 de septiembre. 
-Alta volatilidad el 20 y 27 de agosto y el 7 y 9 de septiembre. 
-
-MACD: Señales de compra el 20 y 27 de agosto y el 7 de septiembre. 
-Señales de venta el 22, 26 y 30 de agosto y el 3 y 7 de septiembre. 
-
-RSI: Señales de compra los días 19, 27, 29 y 30 de agosto y el 7 de septiembre.
-Señales de venta el 9 de septiembre.
-
-Se puede decir que, en general, los tres indicadores compartieron fechas de señales de compra y de venta pero el que muestra mayor informacion es BBands, seguido de MACD con datos mas concretos y por último el RSI que nos da información mas reservada considerando menor cantidad de señales de compra y venta. 
-
-#### Binance USD/TetherUS (BUSD/USDT)
-
-BBands: Hay señales de compra casi todos los días ya que la estructura de los precios varía muy poco alrededor de dos precios al igual que con las señales de venta. En términos de volatilidad se puede decir que no hay mucha. 
-
-MACD: Se ven señales de compra los días 17, 18, 24, 27, y 31 de agosto y el 3, 5, 7, 8 y 11 de septiembre.
-En señales de venta se observan los días 19, 23 y 26 de agosto y el 2, 6, 9 y 10 de septiembre. 
-
-RSI: Haciendo uso de este indicador no se presentan señales de venta ni de venta. 
-
-#### Chiliz/TetherUS (CHZ/USDT)
-
-BBands: Se observan señales de compra el 17, 20, 22, 25, 28 y 31 de agosto y el 3, 8 y 11 de septiembre. 
-Las señales de compra se ven en 16, 19, 21, 24, 26, 29 y 30 de agosto y el 2, 6, 7 y 11 de septiembre.
-Se ve alta volatilidad el 19, 24 y 26 de agosto y el 7 de septiembre. 
-
-MACD: Se observan señales de compra en los días 21, 27 y 31 de agosto y el 2 y 7 de septiembre.
-Las señales de venta están presentes en el 19, 25 y 30 de agosto y el 4 de septiembre. 
-
-RSI: Señales de compra el 16 y 23-24 y el 2 y 11 de septiembre. 
-Las señales de venta están en 19, 20, 27 y 30 de agosto y el 7 de septiembre. 
-
-#### Dogecoin/TetherUS (DOGE/USDT)
-
-BBands: Señales de compra pueden observarse los días 16, 22 y 25 de agosto y el 6, 9 y 10 de octubre. 
-Las señales de venta están presentes los días 18, 20, 22, 26, 28, 30 y 31 de agosto y el 2, 5, 6 y 11 de septiembre. 
-En términos de volatilidad se observa un poco alta al principio del periodo, después de una disminución de precios que se mantuvo hasta el 19 de agosto, el precio se mantuvo contante el resto del periodo, provocando una baja volatilidad. 
-
-MACD: Existen muy pocas señales de compra en todos los periodo y las que hay son muy ligeras. La mas marcada se encuentra al final, pasando el 8 de septiembre, pero rapidamente parece que va a convertirse en una señal de venta. 
-Las señales de venta son las mas pronunciadas, y se ven de formas mas especifica entre el 17 y 22 de agosto, 26-29 y 6-8 de septiembre. 
-
-RSI: Las señales de compra se observan el día 16 y 25 de agosto y el 6 y 9 de septiembre.
-En señales de venta se observan el 18, 22, 27, 29 y 30 de agosto y el 7 de septiembre. 
-
-#### Ethereum Classic/TetherUS (ETC/USDT)
-
-BBands: Aquí se observan mucho movimientos en los precios y, por lo mismo, mucha volatilidad.
-Las señales de compra que se observan están siempre acompañadas de señales de venta.
-
-MACD: Las señales de compra mas evidentes se encuentran los días 26 y 30 de agosto, seguidas del 6-7 de septiembre. 
-Las señales de venta, que son igual de pocas, están del 18 al 23 de agosto, del 26 al 30 de agosto y del 7 al 8 de septiembre. 
-
-RSI: Aquí se presentan solamente tres señales de compra bien definidas alrededor del 25 de agosto, del 7 y 9 de septiembre.
-Las señales de venta son mas notorias, abarcando varios días desde el 18 al 21 de agosto, 22 y 29 de agosto.
-
-#### Ethereum/TetherUS (ETH/USDT)
-
-BBands: A pesar de observarse muchos cambios en los precios, las bandas no presentan una gran volatilidad. Hay muchas señales de venta muy pequeñas y consecutivas, las cuales son seguidas de señales de venta ubicadas en periodos muy largos. 
-
-MACD: Este indicador tambien nos muestra mas señales de compra que de venta pero en periodos mas cortos en comparación, haciéndonos entender que las elevaciones de los precios son efímeras, y las caidas de los mismo son mas duraderas. 
-
-RSI: De igual manera se tiene mayor concentración del RSI por debajo de 30 en comparacion a lo ubicado por arriba de 70, lo que declara una mayor tendencia a la venta.
-
-#### Luna/TetherUS (LUNA/USDT)
-
-BBands: Es casi imposible, a simple vista, determinar las señales de compra y venta ya que los precios mantuvieron una misma tendencia a lo largo del periodo, hasta el final que hubo una gran elevación del precio y es cuando la volatilidad se ve muy amplia. 
-
-MACD: Lo mismo pasa aqui, pocas señales de compra y venta y es hasta el 9 de septiembre que se ve una señal amplia de compra y para el 11 de septiembre parece haber una señal de venta. 
-
-RSI: Aquí la información se ve mas clara: señales de compra mas definidas los días 23, 30 y 31 de agosto y el 1, 6, 8 y 9-10 de septiembre. 
-Seguido de señales de venta el 19 y 29 de agosto.
-
-#### Terra Classic/TetherUS (LUNC/USDT)
-
-BBands: No es agradable lo que se ve, seguramente porque la información es realativamente reciente, solo presente a partir del 9 de septiembre. Mucha volatilidad, pocas señales de compra y pocas señales de venta. 
-
-MACD: Aqui se observan señales de compra pequeñas y grandes señales de venta que duraron mas de dos días. 
-
-RSI: Es mas evidente la diferencia entre la cantidad de señales de venta, siendo un aproximado de 6, contra 2 señales de compra. 
-
-#### Matic Network/TetherUS (MATIC/USDT)
-
-BBands: Mucha fluctuación en los precios, lo que se ve reflejado en una aplia volatilidad.  Señales de compra muy recurrente y seguidas inmediatamente de señales de venta. 
-
-MACD:Hay muchas señales de compra pero por cortos periodos y menos señales de venta que igual duran pco pero hay algunas muy pronunciadas. 
-
-RSI: Sucede los mismo que con el indicador anterior, muchas señales de compra y pocas señales de venta, las cuales son mas pronunciadas. 
-
-#### Shib/TetherUS (SHIB/USDT)
-
-BBands: Precios fluctuantes con volatilidad alta. Pocas señales de compra y muchas señales de venta. 
-
-MACD: Algunas señales cortas de compra un pocas señales de venta con mucha amplitud en el tiempo. 
-
-RSI: Se observan cuatro señales de venta bien marcadas y solo tres señales de compra por un periodo corto. 
-
-#### Sol/TetherUS (SOL/USDT)
-
-BBands: Alta volatilidad al principio. Cortas señales de compra y largas señlaes de venta. 
-
-MACD: Muchas señales de venta en amplios periodos y de forma constante y pronunciada, en contraste a las señales de compra, las cuales son pocas y por pocos periodos. 
-
-RSI: Dos pequeñas señales de compra, en comparación a la gran cantidad de señales de venta. 
-
-#### STG/TetherUS (STG/USDT)
-
-BBands: Se registran periodos de amplica volatilidad, con muchas señales de compra que son seguidas de pequeñas señales de venta. 
-
-MACD: Varias y amplias señales de compara y varias y amplias señales de venta. 
-
-RSI: Cinco señales de compra y siete señales de venta. Esto nos muestra que, a pesar de que no hubo una gran fluctuación en los precios, las señales demuestran que hay mucha variabilidad. 
-
-### 3.6.- Selección de criptomonedas y estrategia para uso en el programa. 
-
-Considerando el comportamiento de los precios (poca volatilidad y fluctuación) y la duración de las señales de compra y venta de los indicadores, específicamente el tomar en cuenta que no sufrieran cambios repentinos o poco visibles, que no estuvieran presentes de forma esporádica, dando oportunidad a muchas de estas de forma seguida, se optó por trabajar con BTCUSDT, DOGEUSDT y ETHUSDT.
-
-Con la información anterior ya estamos en condiciones de establecer la estrategia a seguir para la compra y venta de criptomonedas. La combinación de dos de los indicadores revisados anteriormente genera un par de condiciones que deben ocurrir simultáneamente para que se tome una acción. Es por ellos que La estrategia elegida es una combinación de los indicadores MACD Y RSI.
-
-Para comprar: MACD tiene que estar por debajo de la señal y RSI por debajo del valor de 30.
-
-Para vender: MACD tiene que estar por encima de la señal y RSI por encima del valor de 70.
+```{r}
+#Vamos a crear una función que guarde las señales de compra mediante Bandas de Bollinger
+BB_compra_evaluacion <- function(data_xts){
+  bb_data <- BBands(Cl(data_xts), n=20, maType = "SMA", sd = 2)
+  comprar <- list()
+  cantidad_renglones <- nrow(data_xts)
+  # Guardamos las señales de compra de BB en una lista llamada "comprar".
+  # Bollinger Bands - Señal de compra: Cuando el precio, estando por debajo, penetra al promedio móvil y enseguida toca la banda superior.
+  for (i in 1:21){
+    
+    comprar<- append(comprar, FALSE)
+  }
+  for(i in 22:cantidad_renglones){
+    if (bb_data$pctB[i]>1) {
+        comprar <- append(comprar, TRUE)
+      } else {
+        comprar <- append(comprar, FALSE)
+      }
+  }
+  return(comprar)
+}
+```
+
+
+#### 3.5.2 Criterio de venta y la función de velas por minuto.
+
+**velas_por_minuto**
+Esta función obtiene las velas de 1 minuto, durante un periodo de 30 minutos para evaluar el desempeño de una criptomoneda desde su compra hasta su respectiva venta. De esta manera, buscamos obtener la diferencia porcentual de dichos precios para cuantificar la ganancia (o en su defecto, pérdida)
+  Args:
+    tiempo_inicio: Representa el tiempo de inicio del bloque de velas a descargar.
+    
+    crypto: Símbolo de la criptomoneda a evaluar.
+    
+  Return: 
+    candles: Es un data frame con la información descargada desde Binance. 
+
+```{r}
+#Esta es una función que genera 30 velas en intervalos de 1 minuto.
+velas_por_minuto <- function(tiempo_inicio, crypto){
+  intervalo <- "1m"
+  limit <- 30
+  start_time <- tiempo_inicio
+  candles <- binance_klines(symbol = crypto, 
+             interval = intervalo, 
+             limit = limit,
+             start_time = start_time)
+  return(candles)
+}
+
+######################################################################
+#prueba1 <- velas_por_minuto( "2022-08-15 00:59:59", "BTCUSDT")
+```
+
+
+**precio_venta**
+Esta función da seguimiento a tiempo pseudo-real (información de las criptomonedas por minuto), para distinguir señales de venta de acuerdo al criterio del 2%.
+Criterio del 2%: Creamos un límite inferior para asegurar que no perderemos una cantidad mayor al 2% del precio de cierre de la compra. Este precio se irá actualizando de acuerdo a los nuevos valores de cierre de velas cuyo valor haya aumentado.
+  
+  Args:
+    precio_compra: Representa el precio en el que se realizó la compra.
+    
+    velas_minutos: Bloque de 30 velas por minuto sobre el cual se aplicará la estrategia de venta.
+    
+  Return: 
+    precio_venta_eval: Esta función regresa el precio de cierre de la venta identificada. 
+```{r}
+
+# Esta función utiliza el criterio de venta del 2% para determinar el precio de venta de la cripto despues de una compra.
+precio_venta <- function(precio_compra, velas_minutos){
+  precio_aux <- precio_compra
+  for (i in 1:30) {
+    if(velas_minutos$low[i] < (0.98*precio_aux)){
+      precio_aux <- velas_minutos$close[i]
+      return(precio_aux)
+    } else {
+        precio_aux <- velas_minutos$close[i]
+        }
+  }
+  return(precio_aux)
+}
+
+######################################################################
+#precio_venta(23950.97, prueba1)
+
+```
+
+
+#### 3.5.3 Evaluación de las estrategias y las criptomonedas
+
+Para la evaluación de las estrategias, se creó un dataframe que plasma el precio de apertura y de cierre de los períodos establecidos, para las 15 criptomonedas definidas anteriormente. Se crea una columna que registra el estatus de compraventa; en caso de que se registre una venta, se calcula la diferencia de ambos precios para obtener la perdida o ganancia. Esta función se genero para las tres estrategias, comenzado con MACD, RI y por último Bandas de Bollinger. 
+
+```{r}
+evaluacion_ganancia_porcentual <- data.frame(
+  "Criptomoneda"= xts_names)
+for (i in 1:15) {
+  # Creamos un data frame auxiliar en donde vamos a guardar las señales de compra de cada criptomoneda:
+  velas_aux<- xts_list[[i]]
+  velas_aux
+  macd_aux <- MACD_compra_evaluacion(velas_aux)
+  # Guardamos esta información de las señales de compra en el data frame de cada criptomoneda:
+  
+  macd_aux %>%
+  as.data.frame() %>%
+    t() -> macd_aux
+  
+  df_list[[i]]$compra_MACD <- macd_aux
+  
+  # Obtenemos la información que requerimos para utilizar las funciones (los argumentos)
+  
+  df_aux<- df_list[[i]]
+  indices_compra_aux <- which(df_aux$compra_MACD == TRUE)
+  precio_cierre_compra_aux <- df_aux[compra_MACD == TRUE]$close
+  tiempo_cierre_compra_aux <- df_aux[compra_MACD == TRUE]$close_time
+  simbolo_cripto_aux <- xts_names[[i]]
+  
+  precios_ventas_crypto <- c()
+  
+  for (j in 1:length(indices_compra_aux)) {
+    #Obtenemos las 30 velas que dan un seguimiento a tiempo pseudo-real
+    velas_minuto_aux <- velas_por_minuto(tiempo_cierre_compra_aux[[j]], simbolo_cripto_aux)
+    #Obtenemos los precios de venta de las criptomonedas de acuerdo a la estrategia de venta.
+    precio_venta_aux <- precio_venta(precio_cierre_compra_aux[[j]], velas_minuto_aux)
+    precios_ventas_crypto <- append(precios_ventas_crypto, precio_venta_aux)
+  }
+  a=(precios_ventas_crypto - precio_cierre_compra_aux)*100/precio_cierre_compra_aux
+  a <- sum(a)
+  evaluacion_ganancia_porcentual$MACD[i] <- a
+}
+```
+
+```{r}
+for (i in 1:15) {
+  # Creamos un data frame auxiliar en donde vamos a guardar las señales de compra de cada criptomoneda:
+  velas_aux<- xts_list[[i]]
+  rsi_aux <- RSI_compra_evaluacion(velas_aux)
+  # Guardamos esta información de las señales de compra en el data frame de cada criptomoneda:
+  
+  rsi_aux %>%
+  as.data.frame() %>%
+    t() -> rsi_aux
+  
+  df_list[[i]]$compra_RSI <- rsi_aux
+  
+  # Obtenemos la información que requerimos para utilizar las funciones (los argumentos)
+  
+  df_aux<- df_list[[i]]
+  indices_compra_aux <- which(df_aux$compra_RSI == TRUE)
+  precio_cierre_compra_aux <- df_aux[compra_RSI == TRUE]$close
+  tiempo_cierre_compra_aux <- df_aux[compra_RSI == TRUE]$close_time
+  simbolo_cripto_aux <- xts_names[[i]]
+  
+  precios_ventas_crypto_RSI <- c()
+  
+  for (j in 1:length(indices_compra_aux)) {
+    #Obtenemos las 30 velas que dan un seguimiento a tiempo pseudo-real
+    velas_minuto_aux <- velas_por_minuto(tiempo_cierre_compra_aux[[j]], simbolo_cripto_aux)
+    #Obtenemos los precios de venta de las criptomonedas de acuerdo a la estrategia de venta.
+    precio_venta_aux <- precio_venta(precio_cierre_compra_aux[[j]], velas_minuto_aux)
+    precios_ventas_crypto_RSI <- append(precios_ventas_crypto_RSI, precio_venta_aux)
+  }
+  a=(precios_ventas_crypto_RSI - precio_cierre_compra_aux)*100/precio_cierre_compra_aux
+  a <- sum(a)
+  evaluacion_ganancia_porcentual$RSI[i] <- a
+}
+```
+
+```{r}
+for (i in 1:15) {
+  # Creamos un data frame auxiliar en donde vamos a guardar las señales de compra de cada criptomoneda:
+  velas_aux<- xts_list[[i]]
+  bb_aux <- BB_compra_evaluacion(velas_aux)
+  # Guardamos esta información de las señales de compra en el data frame de cada criptomoneda:
+  
+  bb_aux %>%
+  as.data.frame() %>%
+    t() -> bb_aux
+  
+  df_list[[i]]$compra_BB <- bb_aux
+  
+  # Obtenemos la información que requerimos para utilizar las funciones (los argumentos)
+  
+  df_aux<- df_list[[i]]
+  indices_compra_aux <- which(df_aux$compra_BB == TRUE)
+  precio_cierre_compra_aux <- df_aux[compra_BB == TRUE]$close
+  tiempo_cierre_compra_aux <- df_aux[compra_BB == TRUE]$close_time
+  simbolo_cripto_aux <- xts_names[[i]]
+  
+  precios_ventas_crypto_BB <- c()
+  
+  for (j in 1:length(indices_compra_aux)) {
+    #Obtenemos las 30 velas que dan un seguimiento a tiempo pseudo-real
+    velas_minuto_aux <- velas_por_minuto(tiempo_cierre_compra_aux[[j]], simbolo_cripto_aux)
+    #Obtenemos los precios de venta de las criptomonedas de acuerdo a la estrategia de venta.
+    precio_venta_aux <- precio_venta(precio_cierre_compra_aux[[j]], velas_minuto_aux)
+    precios_ventas_crypto_BB <- append(precios_ventas_crypto_BB, precio_venta_aux)
+  }
+  a=(precios_ventas_crypto_BB - precio_cierre_compra_aux)*100/precio_cierre_compra_aux
+  a <- sum(a)
+  evaluacion_ganancia_porcentual$BB[i] <- a
+}
+```
+
+#### 3.5.4 Resultados de la evaluación
+
+Con la información obtenida en los dataframes, se obtuvó la sumatoria porcentual de las pérdidas y ganancia para cada una de las estrategias; con los resultados obtenidos, podemos observar que MACD muestra el mejor resultado porcentual, por lo que se elige esta estrategia como la base del programa.
+
+```{r eval=FALSE}
+#Evaluación de las estrategias
+#Evaluación de las estrategias
+
+sum(evaluacion_ganancia_porcentual$MACD)
+sum(evaluacion_ganancia_porcentual$RSI)
+sum(evaluacion_ganancia_porcentual$BB)
+```
+
+
+#### 3.5.5.- Resultados promedio de las criptomonedas al utilizar la estrategia MACD
+
+Una vez seleccionada la estrategia MACD, se evalúan las 15 criptomonedas bajo este método para obtener los 3 mejores resultados, siendo BNB, STG Y ATOM las criptomonedas con los mejores resultados en cuanto a ganancia.
+
+```{r}
+for(i in 1:15){
+  print(evaluacion_ganancia_porcentual$MACD[[i]])
+}
+```
+Análisis visual del desempeño de las tres estrategias seleccionadas: 
+
+```{r}
+#grafica2_df$MACD <- mean(evaluacion_ganancia_porcentual$MACD)
+
+#<- factor(df$symbols, levels = df$symbols[order(df$Mean_trades, decreasing = FALSE)])
+m_1 <- mean(evaluacion_ganancia_porcentual$MACD)
+m_2 <- mean(evaluacion_ganancia_porcentual$RSI)
+m_3 <- mean(evaluacion_ganancia_porcentual$BB)
+grafica2_df <-data.frame( 
+  "Estrategia"=c("MACD", "RSI", "BB"),
+  "Promedio"= c(m_1, m_2, m_3))
+
+grafica2_df$Estrategia <- factor(grafica2_df$Estrategia, levels = grafica2_df$Estrategia[order(grafica2_df$Promedio, decreasing = FALSE)])
+
+grafica2_df %>%
+#Evaluación de las estrategias
+ggplot(aes(x = Estrategia, fill=Estrategia, y= Promedio)) +
+  geom_bar(stat = "Identity",
+           position = 'dodge', 
+           alpha = 0.7) +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = "none") +
+  scale_fill_viridis(discrete = TRUE, direction = 1)+
+  scale_y_continuous(labels = function(x) paste0(x, "%"))+
+  coord_flip() +
+  facet_wrap(~"Desempeño porcentual promedio al utilizar las estrategias MACD, RSI y BB")   +
+  labs(y = "Ganancia porcentual promedio",
+       x = "Estrategias") 
+  geom_text(aes(label = comma(Promedio)), hjust = 1, nudge_x = -.5, colour = "black")
+```
+
+Análisis visual del desempeño de las criptomonedas bajo la estrategia previamente seleccionada (MACD): 
+
+```{r}
+grafica3_df<- evaluacion_ganancia_porcentual
+
+grafica3_df$Criptomoneda <- factor(grafica3_df$Criptomoneda, levels = grafica3_df$Criptomoneda[order(grafica3_df$MACD, decreasing = FALSE)])
+
+grafica3_df %>%
+#Evaluación de las estrategias
+ggplot(aes(x = Criptomoneda, fill=MACD, y= MACD)) +
+  geom_bar(stat = "Identity",
+           position = "dodge", 
+           alpha = 0.7) +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = "none") +
+  scale_fill_viridis(discrete = FALSE, direction = -1)+
+  scale_y_continuous(labels = function(x) paste0(x, "%")) +
+  coord_flip() +
+  facet_wrap(~"Ganancia porcentual acumulada al utilizar la estrategia seleccionada: MACD")   +
+  labs(y = "Ganancia porcentual acumulada",
+       x = "Criptomoneda") 
+  geom_text(aes(label = comma(Promedio)), hjust = 1, nudge_x = -.5, colour = "black")
+```
 
 
 ## 4.- Desarrollo
-## 5.- Conclusión
 
+
+### 4.1.- Estructura del programa.
+
+#### 4.1.1.- Primero le damos valor a algunas variables que serán utiles más adelante como los símbolos a utilizar, la cantidad de incremento de precio para tomar la decision de venta para proteger la ganancia, los periodos de la estrategia a utilizar, el acceso al bot de telegram. 
+
+
+
+#### 4.1.2.- A continuación, se crea una función de venta "cripsell" que al momento de funcionar arrojará un TRUE si se vende o FALSE si no. Esta parte incluye las decisiones de venta que serían: Se vende si el precio aumenta un 5% con respecto al precio de compra, se vende si el precio cae un 2% por debajo del precio de compra y si pasan 30 minutos desde que se hizo la compra y no ha pasado otra razón para vender. 
+
+
+
+#### 4.1.3.-Después viene una funcion de compra "cripbuy", que indica 0 si se compra o 1 si no.
+Incluye la descarga de las velas de los símbolos con los que se trabajan, acomodando la información por tiempo de apertura.
+Se definen los indicadores técnicos con los parámetros ya definidos y se establece la estrategía a utilizar.
+
+
+
+#### 4.1.4.- A continuación, se presenta una función de Trading que es la que nos indicar cuando se compra o no. 
+Inicia un chat con el Bot de instagram, incluye una variable que indica si hay una compra en proceso y tambien una variable que indica los registros de las operaciones hechas. 
+
+
+
+#### 4.1.5.- Después comienza el análisis de si se compra o no.
+Para una venta se envía una alerta a telegram y se registran las operaciones.
+
+Cuando sucede una compra, se envía una alerta a telegram y se registran las operaciones haciendo el cálculo de la ganancia. 
+
+El script se pausa por 60 segundos para despues seguir funcionando. 
+
+
+
+#### 4.1.6.- Se incluye una opción para poder detener el bot desde el chat y un mensaje de bienvenida cuando se comienza a correr el script. 
+
+
+
+#### 4.1.7.- Al final se cierra el script, lo que significa que todo lo anterior se va a estar repitiendo de forma automática para mandar señales constantemente.
+
+### 4.2.- Script
+
+
+```{r echo = FALSE}
+script <- readLines("ProyectoR_DEM.r") 
+cat(script, sep = '\n') 
+```
+
+
+
+### 4.2.- Automatización en AWS
+
+El R script que contiene el código de programación, `ProyectoR_DEM.r`, se cargó a Amazon Web Services (AWS) el cual es una colección de servicios de computación en la nube pública que en conjunto forman una plataforma de computación en la nube, ofrecidas a través de Internet por Amazon.com, con la finalidad de que el programa se ejecute de forma automática sin inconvenientes.
+
+
+```{r, eval=TRUE, echo=FALSE, out.width="50%", fig.cap="AWS", fig.align='center'}
+knitr::include_graphics("AWS.jpg")
+```
+
+
+
+
+### 4.3.- Visualizacion en Telegram
+Mensajes recibidos al momento de iniciar, comprar, vender y cerrar el trade.
+
+```{r, eval=TRUE, echo=FALSE, out.width="50%", fig.cap="AWS", fig.align='center'}
+knitr::include_graphics("Telegram.jpg")
+```
+
+```{r, eval=TRUE, echo=FALSE, out.width="50%", fig.cap="AWS", fig.align='center'}
+knitr::include_graphics("Telegram2.jpg")
+```
+
+
+## 7.- Conclusión
+
+La realización de este proyecto deja varios aprendizajes importantes, entre ellos el valor de la selección de una estrategia de trading adecuada; ésta será clave para establecer el patrón de actuación en el mercado que genere ganancias. Básicamente, la estrategia determina en qué momentos se debe comprar y en qué momentos vender, cuándo es acertado abrir una posición y cuándo se puede cerrar.
+Otro criterio clave para la dinámica de trading de criptomonedas son las condiciones preestablecidas; cada operador establece sus propios sistemas de actuación en el mercado de acuerdo con su tipo de trading, su experiencia, objetivos de inversión, temporalidad en la que opera, conocimientos en el uso de indicadores, etc. Se comprendió que no hay una regla fija para definir condiciones, sino que la experiencia tiene un peso clave para la selección de estas. 
+Finalmente se concluyó que, a pesar de que existe margen de error en los bots de trading para criptomonedas, son más las ventajas que traen para el operador. Dentro de los puntos más remarcables de estas herramientas es que los bots no tienen un límite de información que pueden procesar a la vez, pueden tomar decisiones acertadas de manera constante y lo más importante, siempre se centrarán en la mejor decisión posible.
