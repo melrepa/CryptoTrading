@@ -712,26 +712,26 @@ ggplot(aes(x = Criptomoneda, fill=MACD, y= MACD)) +
 
 ### 4.1.- Estructura del programa.
 
-#### 4.1.1.- Primero le damos valor a algunas variables que serán utiles más adelante como los símbolos a utilizar, la cantidad de incremento de precio para tomar la decision de venta para proteger la ganancia, los periodos de la estrategia a utilizar, el acceso al bot de telegram. 
+* Primero le damos valor a algunas variables que serán utiles más adelante como los símbolos a utilizar, la cantidad de incremento de precio para tomar la decision de venta para proteger la ganancia, los periodos de la estrategia a utilizar, el acceso al bot de telegram. 
 
 
 
-#### 4.1.2.- A continuación, se crea una función de venta "cripsell" que al momento de funcionar arrojará un TRUE si se vende o FALSE si no. Esta parte incluye las decisiones de venta que serían: Se vende si el precio aumenta un 5% con respecto al precio de compra, se vende si el precio cae un 2% por debajo del precio de compra y si pasan 30 minutos desde que se hizo la compra y no ha pasado otra razón para vender. 
+* A continuación, se crea una función de venta "cripsell" que al momento de funcionar arrojará un TRUE si se vende o FALSE si no. Esta parte incluye las decisiones de venta que serían: Se vende si el precio aumenta un 5% con respecto al precio de compra, se vende si el precio cae un 2% por debajo del precio de compra y si pasan 30 minutos desde que se hizo la compra y no ha pasado otra razón para vender. 
 
 
 
-#### 4.1.3.-Después viene una funcion de compra "cripbuy", que indica 0 si se compra o 1 si no.
+* Después viene una funcion de compra "cripbuy", que indica 0 si se compra o 1 si no.
 Incluye la descarga de las velas de los símbolos con los que se trabajan, acomodando la información por tiempo de apertura.
 Se definen los indicadores técnicos con los parámetros ya definidos y se establece la estrategía a utilizar.
 
 
 
-#### 4.1.4.- A continuación, se presenta una función de Trading que es la que nos indicar cuando se compra o no. 
+* A continuación, se presenta una función de Trading que es la que nos indicar cuando se compra o no. 
 Inicia un chat con el Bot de instagram, incluye una variable que indica si hay una compra en proceso y tambien una variable que indica los registros de las operaciones hechas. 
 
 
 
-#### 4.1.5.- Después comienza el análisis de si se compra o no.
+* Después comienza el análisis de si se compra o no.
 Para una venta se envía una alerta a telegram y se registran las operaciones.
 
 Cuando sucede una compra, se envía una alerta a telegram y se registran las operaciones haciendo el cálculo de la ganancia. 
@@ -740,11 +740,11 @@ El script se pausa por 60 segundos para despues seguir funcionando.
 
 
 
-#### 4.1.6.- Se incluye una opción para poder detener el bot desde el chat y un mensaje de bienvenida cuando se comienza a correr el script. 
+* Se incluye una opción para poder detener el bot desde el chat y un mensaje de bienvenida cuando se comienza a correr el script. 
 
 
 
-#### 4.1.7.- Al final se cierra el script, lo que significa que todo lo anterior se va a estar repitiendo de forma automática para mandar señales constantemente.
+* Al final se cierra el script, lo que significa que todo lo anterior se va a estar repitiendo de forma automática para mandar señales constantemente.
 
 ### 4.2.- Script
 
