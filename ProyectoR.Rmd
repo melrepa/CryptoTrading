@@ -61,8 +61,8 @@ Utilizar alguna de la siguiente credencial de acceso a Binance mediante
 su API:
 
 ```{r}
-key_1 <- "UBaFx31DvB7FwWnR65te9Nhx8ZduX4oNEtiP8GTLVMmM4TCsMUQRGz6TShwToUt8"
-secret_1 <- "0DleR5sMIlbYzk99q3GV0N07OBk4iESgJNrrdiOR8ZWJwK6ywg8xZtSZhmtQNhqH"
+key_1 <- "XXXXXXXXXXXX"
+secret_1 <- "XXXXXXXXXXXXXXx"
 ```
 
 Efectuar la autenticación:
