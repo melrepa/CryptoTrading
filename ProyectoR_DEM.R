@@ -14,8 +14,8 @@ library(telegram.bot)
 library(ggplot2)
 library(quantmod)
 
-key_1 <- "UBaFx31DvB7FwWnR65te9Nhx8ZduX4oNEtiP8GTLVMmM4TCsMUQRGz6TShwToUt8"
-secret_1 <- "0DleR5sMIlbYzk99q3GV0N07OBk4iESgJNrrdiOR8ZWJwK6ywg8xZtSZhmtQNhqH"
+key_1 <- "XXXXXXXXXXXXXXXXXXXXXXXXX"
+secret_1 <- "XXXXXXXXXXXXXXXXXXXXXXXXx"
 
 
 binance_credentials(key = key_1, secret = secret_1)
@@ -37,7 +37,7 @@ nSig <- 9
 n_rsi <- 14
 
 #Uso de Telegram Bot
-token <- "5714075349:AAER6IE28EsAFPAeqroEWcwgTy38RxTu5Pw"
+token <- "XXXXXXXXXXXXXXXXXXXXXXXX"
 bot <- Bot(token = token)
 updates <- bot$getUpdates()
 
